@@ -52,12 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
             generatedLinkInput.value = finalUrl;
             resultContainer.classList.remove('hidden');
             
-            // Generación de QR (Librería CDN)
-            qrcodeContainer.innerHTML = ''; // Limpiamos el anterior si existe
+            // Generación de QR (Tamaño prominente 250x250)
+            qrcodeContainer.innerHTML = '';
             new QRCode(qrcodeContainer, {
                 text: finalUrl,
-                width: 180,
-                height: 180,
+                width: 250,
+                height: 250,
                 colorDark : "#2d3436",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
@@ -68,11 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         copyBtn.addEventListener('click', () => {
             generatedLinkInput.select();
             document.execCommand('copy');
-            const originalIcon = copyBtn.innerHTML;
-            // Ícono de check
-            copyBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            const originalHtml = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>¡Copiado!</span>';
             setTimeout(() => {
-                copyBtn.innerHTML = originalIcon;
+                copyBtn.innerHTML = originalHtml;
             }, 2000);
         });
     }
@@ -110,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error("Error al leer los datos de la URL:", error);
-            // Si hay error (ej. modificaron el base64), regresa al home sin parámetros
             window.history.replaceState({}, document.title, window.location.pathname);
             initCreatorMode();
         }
@@ -121,18 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const moveButton = (e) => {
             if (e) e.preventDefault(); // Bloqueamos comportamiento por defecto
             
-            if (btnNo.style.position !== 'absolute') {
-                btnNo.style.position = 'absolute';
-            }
+            // Forzamos position: absolute relativo al viewport (debido a los ajustes CSS)
+            btnNo.style.position = 'absolute'; 
             
             const btnWidth = btnNo.offsetWidth || 120;
             const btnHeight = btnNo.offsetHeight || 60;
             
-            // Limites del dispositivo para no generar scroll
+            // Límites del dispositivo usando innerWidth e innerHeight, respetando los bordes
             const maxX = window.innerWidth - btnWidth - 20;
             const maxY = window.innerHeight - btnHeight - 20;
             
-            // Calculamos posición random segura
+            // Calculamos posición random
             const randomX = Math.max(10, Math.floor(Math.random() * maxX));
             const randomY = Math.max(10, Math.floor(Math.random() * maxY));
             
@@ -141,12 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         // Detecta hover en PC
+        btnNo.addEventListener('mouseover', moveButton);
         btnNo.addEventListener('mouseenter', moveButton);
         
         // Detecta toque en móviles (Mobile-First)
         btnNo.addEventListener('touchstart', moveButton, { passive: false });
         
-        // Por si logran darle click de alguna forma (ej. lag)
+        // Prevención adicional ante clicks forzados
         btnNo.addEventListener('click', (e) => {
             e.preventDefault();
             moveButton();
@@ -155,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- VISTA ÉXITO ---
     createOwnBtn.addEventListener('click', () => {
-        // Redirige al inicio limpio
         window.location.href = window.location.pathname; 
     });
 });

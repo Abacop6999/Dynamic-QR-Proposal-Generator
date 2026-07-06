@@ -37,13 +37,18 @@
                 <div id="result-container" class="hidden">
                     <div class="divider"></div>
                     <h3>¡Tu propuesta está lista! 🎉</h3>
-                    <div class="link-box">
+                    
+                    <div class="qr-wrapper">
+                        <div id="qrcode-container"></div>
+                    </div>
+                    
+                    <div class="link-box-column">
                         <input type="text" id="generated-link" readonly>
-                        <button id="copy-btn" class="btn-icon" title="Copiar enlace">
+                        <button id="copy-btn" class="btn-primary copy-btn-large">
                             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span>Copiar Enlace</span>
                         </button>
                     </div>
-                    <div id="qrcode-container"></div>
                 </div>
             </div>
         </section>
