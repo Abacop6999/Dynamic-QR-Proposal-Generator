@@ -66,15 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             };
 
-            // Petición a is.gd para acortar el enlace de manera gratuita y sin API key
-            fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(finalUrl)}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.shorturl) {
-                        generatedLinkInput.value = data.shorturl;
-                        renderQR(data.shorturl);
+            // Petición a TinyURL para acortar el enlace de manera gratuita
+            fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(finalUrl)}`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Error en la respuesta de red");
+                    return res.text(); // TinyURL devuelve texto plano, no JSON
+                })
+                .then(shorturl => {
+                    if (shorturl && shorturl.startsWith("http")) {
+                        generatedLinkInput.value = shorturl;
+                        renderQR(shorturl);
                     } else {
-                        throw new Error("No se pudo acortar");
+                        throw new Error("Respuesta inválida al acortar");
                     }
                 })
                 .catch(err => {
