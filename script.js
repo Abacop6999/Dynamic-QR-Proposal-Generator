@@ -97,13 +97,52 @@ document.addEventListener('DOMContentLoaded', () => {
             
             setupEvasiveButton();
             
+            // Pre-cargamos el audio para que esté listo al instante (Mejores prácticas)
+            const successAudio = new Audio('audio/Ahora_soy_tan_feliz.mp3');
+            successAudio.preload = 'auto';
+            // Opcional: configurar volumen si es muy alto
+            // successAudio.volume = 0.8;
+            
             // Botón SÍ
             btnYes.addEventListener('click', () => {
+                // Reproducimos el audio al hacer clic, capturando posibles errores 
+                // del navegador (ej. políticas de autoplay bloqueado si la interacción no cuenta)
+                successAudio.play().catch(err => {
+                    console.warn('La reproducción de audio fue bloqueada o falló:', err);
+                });
+                
                 receiverView.classList.remove('active');
                 setTimeout(() => {
                     receiverView.classList.add('hidden');
                     successView.classList.remove('hidden');
-                    setTimeout(() => successView.classList.add('active'), 50);
+                    setTimeout(() => {
+                        successView.classList.add('active');
+                        
+                        // Lluvia de confeti romántico por 3 segundos
+                        if (typeof confetti === 'function') {
+                            var duration = 3000;
+                            var end = Date.now() + duration;
+                            (function frame() {
+                                confetti({
+                                    particleCount: 5,
+                                    angle: 60,
+                                    spread: 55,
+                                    origin: { x: 0 },
+                                    colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7']
+                                });
+                                confetti({
+                                    particleCount: 5,
+                                    angle: 120,
+                                    spread: 55,
+                                    origin: { x: 1 },
+                                    colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7']
+                                });
+                                if (Date.now() < end) {
+                                    requestAnimationFrame(frame);
+                                }
+                            }());
+                        }
+                    }, 50);
                 }, 400); // Transición suave
             });
             
