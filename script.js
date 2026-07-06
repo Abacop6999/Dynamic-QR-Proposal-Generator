@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Seguridad: Codificación UTF-8 segura para URL
             const data = { q, s };
-            const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+            // Usamos encodeURIComponent para proteger el signo '+' generado por btoa
+            const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             
             const currentUrl = window.location.href.split('?')[0].split('#')[0];
             const finalUrl = `${currentUrl}?p=${encoded}`;
@@ -103,8 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- MODO DESTINATARIO ---
     function initReceiverMode(encodedParam) {
         try {
-            // Seguridad: Desencriptación
-            const decodedStr = decodeURIComponent(escape(atob(encodedParam)));
+            // Seguridad: Desencriptación (reparamos los espacios por si el link es antiguo y perdió los '+')
+            const safeParam = encodedParam.replace(/ /g, '+');
+            const decodedStr = decodeURIComponent(escape(atob(safeParam)));
             const data = JSON.parse(decodedStr);
             
             if (!data.q || !data.s) throw new Error("Datos inválidos");
