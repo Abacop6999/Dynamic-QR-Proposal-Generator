@@ -66,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             };
 
-            // Petición a TinyURL para acortar el enlace de manera gratuita
-            fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(finalUrl)}`)
+            // Petición a clck.ru (Acortador directo y sin publicidad intermedia)
+            fetch(`https://clck.ru/--?url=${encodeURIComponent(finalUrl)}`)
                 .then(res => {
                     if (!res.ok) throw new Error("Error en la respuesta de red");
-                    return res.text(); // TinyURL devuelve texto plano, no JSON
+                    return res.text(); // clck.ru devuelve el enlace en texto plano
                 })
                 .then(shorturl => {
                     if (shorturl && shorturl.startsWith("http")) {
