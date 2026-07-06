@@ -1,1 +1,320 @@
-/* Estilos principales */
+:root {
+    --bg-color-1: #ff9a9e;
+    --bg-color-2: #fecfef;
+    --bg-color-3: #a1c4fd;
+    --text-primary: #2d3436;
+    --text-secondary: #636e72;
+    --primary-color: #ff4757;
+    --primary-hover: #ff6b81;
+    --yes-color: #2ed573;
+    --yes-hover: #26de81;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 50%, var(--bg-color-3) 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-primary);
+    overflow: hidden; /* Vital para que el botón no genere scroll al evadir */
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.app-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.view {
+    display: none;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.view.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Diseño Premium: Glassmorphism */
+.glass-card, .success-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    width: 100%;
+    box-shadow: var(--glass-shadow);
+    text-align: center;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.15);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.btn-secondary {
+    padding: 12px 24px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    font-size: 1rem;
+    border: 1px solid var(--glass-border);
+    margin-top: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.btn-secondary:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Resultados */
+#result-container {
+    margin-top: 2rem;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.divider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.link-box {
+    display: flex;
+    gap: 8px;
+    margin: 1rem 0;
+}
+
+.link-box input {
+    background: rgba(255, 255, 255, 0.9);
+    cursor: text;
+}
+
+.btn-icon {
+    background: var(--primary-color);
+    color: white;
+    padding: 0 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon:hover {
+    background: var(--primary-hover);
+}
+
+#qrcode-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Vista Juego (Destinatario) */
+#receiver-view {
+    text-align: center;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    max-width: none;
+    padding: 20px;
+}
+
+.dynamic-text {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 4px 15px rgba(0,0,0,0.2);
+    margin-bottom: 3rem;
+    line-height: 1.2;
+    z-index: 10;
+    max-width: 800px;
+    word-wrap: break-word;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 80px;
+    width: 100%;
+}
+
+.btn-yes, .btn-no {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 10;
+    min-width: 120px;
+}
+
+.btn-yes {
+    background: var(--yes-color);
+    color: white;
+}
+
+.btn-yes:hover {
+    background: var(--yes-hover);
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(46, 213, 115, 0.4);
+}
+
+.btn-no {
+    background: white;
+    color: var(--primary-color);
+    position: relative; 
+    user-select: none;
+    -webkit-user-select: none;
+    transition: left 0.2s ease, top 0.2s ease;
+}
+
+/* Vista Éxito */
+.success-card {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.hearts-animation {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 1.5rem;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+    .btn-yes, .btn-no {
+        padding: 12px 30px;
+        font-size: 1.2rem;
+    }
+}

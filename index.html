@@ -2,11 +2,71 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic QR Proposal Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Generador de Propuestas Especiales</title>
+    <meta name="description" content="Crea propuestas personalizadas de forma rápida y sencilla.">
+    <!-- Google Fonts para modernidad -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- CDN para QRCode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
+    <div class="app-container">
+        
+        <!-- Vista Creador -->
+        <section id="creator-view" class="view active">
+            <div class="glass-card">
+                <h1>Crea tu Propuesta ✨</h1>
+                <p class="subtitle">Genera un enlace mágico donde la única respuesta posible es "Sí".</p>
+                
+                <form id="creator-form">
+                    <div class="input-group">
+                        <label for="question">Pregunta principal:</label>
+                        <input type="text" id="question" maxlength="100" placeholder="Ej: ¿Quieres ser mi novia?" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="success-msg">Mensaje de éxito:</label>
+                        <input type="text" id="success-msg" maxlength="100" placeholder="Ej: ¡Sabía que dirías que sí! ❤️" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Generar Propuesta</button>
+                </form>
+
+                <div id="result-container" class="hidden">
+                    <div class="divider"></div>
+                    <h3>¡Tu propuesta está lista! 🎉</h3>
+                    <div class="link-box">
+                        <input type="text" id="generated-link" readonly>
+                        <button id="copy-btn" class="btn-icon" title="Copiar enlace">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                    <div id="qrcode-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vista Destinatario (Juego) -->
+        <section id="receiver-view" class="view hidden">
+            <h1 id="receiver-question" class="dynamic-text"></h1>
+            <div class="buttons-container">
+                <button id="btn-yes" class="btn-yes">SÍ</button>
+                <button id="btn-no" class="btn-no" tabindex="-1">NO</button>
+            </div>
+        </section>
+
+        <!-- Vista de Éxito -->
+        <section id="success-view" class="view hidden">
+            <div class="success-card">
+                <div class="hearts-animation">❤️</div>
+                <h1 id="success-message" class="dynamic-text"></h1>
+                <button id="create-own-btn" class="btn-secondary">Crea tu propia propuesta aquí</button>
+            </div>
+        </section>
+        
+    </div>
 
     <script src="script.js"></script>
 </body>
