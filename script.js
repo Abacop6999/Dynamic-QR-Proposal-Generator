@@ -49,19 +49,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const finalUrl = `${currentUrl}?p=${encoded}`;
             
             // Mostramos resultado
-            generatedLinkInput.value = finalUrl;
+            generatedLinkInput.value = 'Generando link corto...';
             resultContainer.classList.remove('hidden');
+            qrcodeContainer.innerHTML = ''; // Limpiamos QR anterior
             
-            // Generación de QR (Tamaño prominente 250x250)
-            qrcodeContainer.innerHTML = '';
-            new QRCode(qrcodeContainer, {
-                text: finalUrl,
-                width: 250,
-                height: 250,
-                colorDark : "#2d3436",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
+            // Función auxiliar para renderizar el QR
+            const renderQR = (urlText) => {
+                qrcodeContainer.innerHTML = '';
+                new QRCode(qrcodeContainer, {
+                    text: urlText,
+                    width: 250,
+                    height: 250,
+                    colorDark : "#2d3436",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            };
+
+            // Petición a is.gd para acortar el enlace de manera gratuita y sin API key
+            fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(finalUrl)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.shorturl) {
+                        generatedLinkInput.value = data.shorturl;
+                        renderQR(data.shorturl);
+                    } else {
+                        throw new Error("No se pudo acortar");
+                    }
+                })
+                .catch(err => {
+                    console.warn("Fallo al acortar URL, usando original:", err);
+                    // Fallback: si falla el acortador, mostramos el link largo original
+                    generatedLinkInput.value = finalUrl;
+                    renderQR(finalUrl);
+                });
         });
         
         // Botón copiar
