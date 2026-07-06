@@ -293,6 +293,11 @@ button {
     background: rgba(255, 255, 255, 0.9);
 }
 
+#success-message {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
 .hearts-animation {
     font-size: 5rem;
     margin-bottom: 1rem;
